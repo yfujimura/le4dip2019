@@ -5,6 +5,8 @@ from pylab import cm
 
 from layer import *
 from network import *
+from dataloader import *
+from utils import *
 
 def main():
 	mndata = MNIST("./")
@@ -17,16 +19,15 @@ def main():
 	net.add(AffineLayer(784,100))
 	net.add(SigmoidLayer())
 	net.add(AffineLayer(100,10))
-	net.add(SoftmaxLayer())
+	net.add(SoftmaxWithCrossEntropy())
 
-	print(">", end="")
-	idx = int(input())
-	if 0 <= idx < 10000:
-		x = X[idx,:,:]
-		x = np.reshape(x, 784)
-		print(np.argmax(net(x)))
-	else:
-		print("invalid input")
+
+	loader = DataLoader((X,Y), 100)
+	X,Y = loader.load()
+	X = np.reshape(X, (X.shape[0], 784))
+	Y = convertOneHotVector(Y, 10)
+	loss = net(X, Y)
+	print(loss)
 	
 	
 if __name__ == "__main__":

@@ -11,6 +11,14 @@ class Sequential():
 			x = l.forward(x)
 		return x
 
+	def __call__(self, x, target):
+		for i, l in enumerate(self.layers):
+			if i != len(self.layers)-1:
+				x = l.forward(x)
+			else:
+				x = l.forward(x, target)
+		return x
+
 	def add(self, layer):
 		self.layers.append(layer)
 
