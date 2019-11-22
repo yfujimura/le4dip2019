@@ -19,8 +19,6 @@ def train(net, X, Y, optimizer=SGD(), batch_size=32, epochs=10):
 		for j in tqdm.tqdm(range(int(X.shape[0] / batch_size))):
 			loader = DataLoader((X,Y), batch_size)
 			_X,_Y = loader.load()
-			_X = np.reshape(_X, (_X.shape[0], 784))
-			_Y = convertOneHotVector(_Y, 10)
 			loss = net(_X, target=_Y)
 			running_loss += loss
 
@@ -38,9 +36,9 @@ def main():
 	
 	mndata = MNIST("./")
 	X, Y = mndata.load_training()
-	X = np.array(X)
-	X = X.reshape((X.shape[0],28,28)) / 255.
+	X = np.array(X) / 255. # 60000 x 784
 	Y = np.array(Y)
+	Y = convertOneHotVector(Y, 10)
 
 	net = Sequential(
 		AffineLayer(784,100),
@@ -55,6 +53,7 @@ def main():
 	training_loss = train(net, X, Y, optimizer=optimizer, batch_size=batch_size, epochs=epochs)
 	net.saveParams("params")
 
+	
 	net = Sequential(
 		AffineLayer(784,100),
 		SigmoidLayer(),
@@ -65,14 +64,13 @@ def main():
 
 	print(">", end="")
 	idx = int(input())
-	_X = X[idx]
-	_Y = Y[idx]
-	_X = np.reshape(_X, (1,784))
-	_Y = np.reshape(convertOneHotVector(_Y, 10), (1,10))
+	_X = np.reshape(X[idx], (1,784))
 	predict = net(_X)
 	print(predict)
-	plt.imshow(X[idx])
+	plt.imshow(np.reshape(X[idx],(28,28)))
 	plt.show()
+	
+	
 	
 	
 	

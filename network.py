@@ -9,12 +9,8 @@ class Sequential():
 		for l in layers:
 			self.layers.append(l)
 
-	#def __call__(self, x):
-	#	for l in self.layers:
-	#		x = l.forward(x)
-	#	return x
 
-	def __call__(self, x, target = None):
+	def __call__(self, x, target=None):
 
 		if target is None:
 			for l in self.layers:
