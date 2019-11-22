@@ -95,3 +95,20 @@ class SoftmaxWithCrossEntropy(Layer):
 		# return: samples x d
 		return (self.softmax_out - self.target) / self.target.shape[0]
 
+class ReLU(Layer):
+
+	def __init__(self):
+		self.is_learnable = False
+
+	def forward(self, x):
+		self.input = x.copy()
+		out = x.copy()
+		out[x < 0] = 0
+		return out
+
+	def backward(self, loss):
+		loss[self.input < 0] = 0
+		return loss
+
+
+

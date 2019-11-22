@@ -57,7 +57,8 @@ def main():
 
 	net = Sequential(
 		AffineLayer(784,100),
-		SigmoidLayer(),
+		#SigmoidLayer(),
+		ReLU(),
 		AffineLayer(100,10),
 		SoftmaxWithCrossEntropy()
 		)
@@ -65,12 +66,12 @@ def main():
 	optimizer = SGD(lr=0.01)
 	batch_size = 100
 	epochs = 50
-	#training_loss = train(net, X, Y, optimizer=optimizer, batch_size=batch_size, epochs=epochs)
-	#net.saveParams("params")
+	training_loss = train(net, X, Y, optimizer=optimizer, batch_size=batch_size, epochs=epochs)
+	net.saveParams("params")
 	
-	#plt.plot(training_loss)
-	#plt.savefig("training_loss.png")
-	#plt.show()
+	plt.plot(training_loss)
+	plt.savefig("training_loss.png")
+	plt.show()
 
 	X_test, Y_test = mndata.load_testing()
 	X_test = np.array(X_test) / 255. 
@@ -79,11 +80,12 @@ def main():
 	
 	net = Sequential(
 		AffineLayer(784,100),
-		SigmoidLayer(),
+		#SigmoidLayer(),
+		ReLU(),
 		AffineLayer(100,10),
 		SoftmaxLayer()
 		)
-	net.loadParams("params_50.npy")
+	net.loadParams("params.npy")
 
 	accuracy = eval(net, X_test, Y_test)
 	print("accuracy:", accuracy)
