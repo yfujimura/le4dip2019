@@ -11,13 +11,13 @@ from utils import *
 from optimizer import *
 
 def train(net, X, Y, optimizer=SGD(), batch_size=32, epochs=10):
+	loader = DataLoader((X,Y), batch_size)
 	losses = []
 
 	for i in range(epochs):
 		running_loss = 0
 
 		for j in tqdm.tqdm(range(int(X.shape[0] / batch_size))):
-			loader = DataLoader((X,Y), batch_size)
 			_X,_Y = loader.load()
 			loss = net(_X, target=_Y)
 			running_loss += loss
