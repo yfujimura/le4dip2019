@@ -9,5 +9,5 @@
 ## 発展課題
 - (784,100)-relu-(100,10)-softmax
 	- SGD:lr=0.01, epochs=50
-	-accuracy: 0.9585
-	-params_relu_50.npy, training_loss_relu_to.png
+	- accuracy: 0.9585
+	- params_relu_50.npy, training_loss_relu_to.png
