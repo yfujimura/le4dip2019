@@ -51,5 +51,15 @@ class Sequential():
 				l.setParams(parameters[i])
 				i+=1
 
+	def train(self):
+		for l in self.layers:
+			if hasattr(l, "mode"):
+				l.mode = "train"
+
+	def eval(self):
+		for l in self.layers:
+			if hasattr(l, "mode"):
+				l.mode = "eval"
+
 
 

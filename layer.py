@@ -110,5 +110,27 @@ class ReLU(Layer):
 		loss[self.input < 0] = 0
 		return loss
 
+class Dropout(Layer):
+
+	def __init__(self, rho):
+		self.is_learnable = False
+		self.rho = rho
+		self.mode = "train"
+
+	def forward(self, x):
+		if self.mode == "train":
+			self.mask = np.random.random_sample(x.shape)
+			self.mask[self.mask < self.rho] = 0
+			self.mask[self.mask >= self.rho] = 1
+			return x * self.mask
+		else:
+			return x * (1 - self.rho)
+
+	def backward(self, loss):
+		return loss * self.mask
+
+
+
+
 
 

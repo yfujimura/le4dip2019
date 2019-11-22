@@ -10,4 +10,8 @@
 - (784,100)-relu-(100,10)-softmax
 	- SGD:lr=0.01, epochs=50
 	- accuracy: 0.9585
-	- params_relu_50.npy, training_loss_relu_to.png
+	- params_relu_50.npy, training_loss_relu_50.png
+- (784,100)-relu-dropout-(100,10)-softmax
+	- SGD:lr=0.01, epochs=50
+	- accuracy: 0.954
+	- params_relu_do_50.npy, training_loss_relu_do_50.png
