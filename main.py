@@ -57,8 +57,8 @@ def main():
 
 	net = Sequential(
 		AffineLayer(784,100),
+		BatchNorm(100),
 		ReLU(),
-		Dropout(0.5),
 		AffineLayer(100,10),
 		SoftmaxWithCrossEntropy()
 		)
@@ -74,6 +74,7 @@ def main():
 	plt.savefig("training_loss.png")
 	plt.show()
 
+
 	X_test, Y_test = mndata.load_testing()
 	X_test = np.array(X_test) / 255. 
 	Y_test = np.array(Y_test)
@@ -81,8 +82,8 @@ def main():
 	
 	net = Sequential(
 		AffineLayer(784,100),
+		BatchNorm(100),
 		ReLU(),
-		Dropout(0.5),
 		AffineLayer(100,10),
 		SoftmaxLayer()
 		)
@@ -99,7 +100,7 @@ def main():
 	print("predict:", np.argmax(predict))
 	plt.imshow(np.reshape(X_test[idx],(28,28)))
 	plt.show()
-	
+
 	
 	
 	
