@@ -58,7 +58,7 @@ def main():
 	net = Sequential(
 		AffineLayer(784,100),
 		ReLU(),
-		Dropout(0.3),
+		Dropout(0.5),
 		AffineLayer(100,10),
 		SoftmaxWithCrossEntropy()
 		)
@@ -82,7 +82,7 @@ def main():
 	net = Sequential(
 		AffineLayer(784,100),
 		ReLU(),
-		Dropout(0.3),
+		Dropout(0.5),
 		AffineLayer(100,10),
 		SoftmaxLayer()
 		)
