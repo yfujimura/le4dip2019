@@ -10,7 +10,8 @@ from dataloader import *
 from utils import *
 from optimizer import *
 
-def train(net, X, Y, optimizer=SGD(), batch_size=100, epochs=10):
+
+def train(net, X, Y, optimizer=SGD(net.getParams()), batch_size=100, epochs=10):
 	loader = DataLoader((X,Y), batch_size)
 	losses = []
 
@@ -23,7 +24,7 @@ def train(net, X, Y, optimizer=SGD(), batch_size=100, epochs=10):
 			running_loss += loss
 
 			net.backprop(loss)
-			net.step(optimizer)
+			optimizer.step()
 
 		running_loss /= int(X.shape[0] / batch_size)
 		losses.append(running_loss)
@@ -46,6 +47,7 @@ def eval(net, X, Y):
 	return accuracy / X.shape[0]
 
 
+
 def main():
 	
 	mndata = MNIST("./")
@@ -56,14 +58,13 @@ def main():
 	Y = convertOneHotVector(Y, 10)
 
 	net = Sequential(
-		AffineLayer(784,100),
-		BatchNorm(100),
-		ReLU(),
-		AffineLayer(100,10),
+		Affine(784,100),
+		Sigmoid(),
+		Affine(100,10),
 		SoftmaxWithCrossEntropy()
 		)
 
-	optimizer = SGD(lr=0.01)
+	optimizer = SGD(net.getLayers())
 	batch_size = 100
 	epochs = 50
 	net.train()
@@ -81,11 +82,10 @@ def main():
 	Y_test = convertOneHotVector(Y_test, 10)
 	
 	net = Sequential(
-		AffineLayer(784,100),
-		BatchNorm(100),
-		ReLU(),
-		AffineLayer(100,10),
-		SoftmaxLayer()
+		Affine(784,100),
+		Sigmoid(),
+		Affine(100,10),
+		SoftmaxW()
 		)
 	net.loadParams("params.npy")
 
@@ -100,6 +100,8 @@ def main():
 	print("predict:", np.argmax(predict))
 	plt.imshow(np.reshape(X_test[idx],(28,28)))
 	plt.show()
+	
+	
 
 	
 	

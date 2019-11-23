@@ -30,17 +30,17 @@ class Sequential():
 	def backprop(self, loss):
 		for l in self.layers[::-1]:
 			loss = l.backward(loss)
+			
 
-	def step(self, optimizer):
-		for l in self.layers:
-			l.updateParams(optimizer)
-
-	def saveParams(self, fn):
+	def getParams(self):
 		parameters = []
 		for l in self.layers:
 			if l.is_learnable:
 				parameters.append(l.getParams())
+		return parameters
 
+	def saveParams(self, fn):
+		parameters = self.getParams()
 		np.save(fn, np.array(parameters))
 
 	def loadParams(self, fn):
@@ -50,6 +50,9 @@ class Sequential():
 			if l.is_learnable:
 				l.setParams(parameters[i])
 				i+=1
+
+	def getLayers(self):
+		return self.layers
 
 	def train(self):
 		for l in self.layers:

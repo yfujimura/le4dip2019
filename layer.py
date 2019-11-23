@@ -12,7 +12,7 @@ class Layer:
 	def updateParams(self, optimizer):
 		pass
 
-class AffineLayer(Layer):
+class Affine(Layer):
 
 	def __init__(self, in_d, out_d):
 		self.in_d = in_d
@@ -37,9 +37,9 @@ class AffineLayer(Layer):
 		self.grad_b = np.sum(loss, axis=0)
 		return np.dot(loss, (self.W).T)
 
-	def updateParams(self, optimizer):
-		self.W = optimizer.update(self.W, self.grad_W)
-		self.b = optimizer.update(self.b, self.grad_b)
+	#def updateParams(self, optimizer):
+	#	self.W = optimizer.update(self.W, self.grad_W)
+	#	self.b = optimizer.update(self.b, self.grad_b)
 
 	def getParams(self):
 		return [self.W, self.b]
@@ -48,10 +48,13 @@ class AffineLayer(Layer):
 		self.W = params[0]
 		self.b = params[1]
 
+	def getGrads(self):
+		return [self.grad_W, self.grad_b]
 
 
 
-class SigmoidLayer(Layer):
+
+class Sigmoid(Layer):
 
 	def __init__(self):
 		self.is_learnable = False
@@ -64,7 +67,7 @@ class SigmoidLayer(Layer):
 		return loss * (1 - self.out) * self.out
 
 
-class SoftmaxLayer(Layer):
+class Softmax(Layer):
 
 	def __init__(self):
 		self.is_learnable = False
@@ -186,6 +189,9 @@ class BatchNorm(Layer):
 		self.E_x = params[2]
 		self.Var_x = params[3]
 		self.forward_num = params[4]
+
+	def getGrads(self):
+		return [self.grad_gamma, self.grad_beta, 0, 0, 0]
 
 
 
