@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from mnist import MNIST
 from pylab import cm
 import tqdm
+import sys
 
 from layer import *
 from network import *
@@ -11,7 +12,7 @@ from utils import *
 from optimizer import *
 
 
-def train(net, X, Y, optimizer=SGD(net.getParams()), batch_size=100, epochs=10):
+def train(net, X, Y, optimizer, batch_size=100, epochs=10):
 	loader = DataLoader((X,Y), batch_size)
 	losses = []
 
@@ -32,7 +33,6 @@ def train(net, X, Y, optimizer=SGD(net.getParams()), batch_size=100, epochs=10):
 
 	return losses
 
-
 def eval(net, X, Y):
 	accuracy = 0
 
@@ -47,11 +47,10 @@ def eval(net, X, Y):
 	return accuracy / X.shape[0]
 
 
+def main(fn):
 
-def main():
-	
 	mndata = MNIST("./")
-
+	
 	X, Y = mndata.load_training()
 	X = np.array(X) / 255. # 60000 x 784
 	Y = np.array(Y)
@@ -59,23 +58,23 @@ def main():
 
 	net = Sequential(
 		Affine(784,100),
-		Sigmoid(),
+		BatchNorm(100),
+		ReLU(),
 		Affine(100,10),
 		SoftmaxWithCrossEntropy()
 		)
 
-	optimizer = SGD(net.getLayers())
+	optimizer = SGD(net.getLayers(), lr=0.01)
 	batch_size = 100
 	epochs = 50
-	net.train()
-	training_loss = train(net, X, Y, optimizer=optimizer, batch_size=batch_size, epochs=epochs)
-	net.saveParams("params")
+	training_loss = train(net, X, Y, optimizer, batch_size=batch_size, epochs=epochs)
+
+	net.saveParams("params/" + fn)
 	
 	plt.plot(training_loss)
-	plt.savefig("training_loss.png")
+	plt.savefig("training_loss/" + fn + ".png")
 	plt.show()
-
-
+	
 	X_test, Y_test = mndata.load_testing()
 	X_test = np.array(X_test) / 255. 
 	Y_test = np.array(Y_test)
@@ -83,13 +82,14 @@ def main():
 	
 	net = Sequential(
 		Affine(784,100),
-		Sigmoid(),
+		BatchNorm(100),
+		ReLU(),
 		Affine(100,10),
-		SoftmaxW()
+		Softmax()
 		)
-	net.loadParams("params.npy")
-
+	net.loadParams("params/" + fn + ".npy")
 	net.eval()
+
 	accuracy = eval(net, X_test, Y_test)
 	print("accuracy:", accuracy)
 
@@ -102,10 +102,8 @@ def main():
 	plt.show()
 	
 	
-
-	
-	
 	
 	
 if __name__ == "__main__":
-	main()
+	args = sys.argv
+	main(args[1])

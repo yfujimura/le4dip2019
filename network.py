@@ -31,7 +31,6 @@ class Sequential():
 		for l in self.layers[::-1]:
 			loss = l.backward(loss)
 			
-
 	def getParams(self):
 		parameters = []
 		for l in self.layers:

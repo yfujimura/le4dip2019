@@ -9,9 +9,6 @@ class Layer:
 	def backward(self):
 		pass
 
-	def updateParams(self, optimizer):
-		pass
-
 class Affine(Layer):
 
 	def __init__(self, in_d, out_d):
@@ -37,11 +34,10 @@ class Affine(Layer):
 		self.grad_b = np.sum(loss, axis=0)
 		return np.dot(loss, (self.W).T)
 
-	#def updateParams(self, optimizer):
-	#	self.W = optimizer.update(self.W, self.grad_W)
-	#	self.b = optimizer.update(self.b, self.grad_b)
-
 	def getParams(self):
+		return [self.W, self.b]
+
+	def getLearnableParams(self):
 		return [self.W, self.b]
 
 	def setParams(self, params):
@@ -142,11 +138,9 @@ class BatchNorm(Layer):
 		self.epsilon = epsilon
 		self.mode = "train"
 
-		self.sum_mu = np.zeros((1, dim))
-		self.sum_sigma = np.zeros((1, dim))
-		self.forward_num = 0
 		self.E_x = np.zeros((1, dim))
 		self.Var_x = np.zeros((1, dim))
+		self.forward_num = 0
 
 	def forward(self, x):
 		if self.mode == "train":
@@ -155,11 +149,9 @@ class BatchNorm(Layer):
 			self.sigma = np.mean(np.power(x - self.mu, 2), axis=0)[np.newaxis,:]
 			self.xh = (x - self.mu) / np.sqrt(self.sigma + self.epsilon)
 
-			self.sum_mu += self.mu
-			self.sum_sigma += self.sum_sigma
+			self.E_x = self.E_x + (self.mu - self.E_x) / (self.forward_num + 1)
+			self.Var_x = self.Var_x + (self.sigma - self.Var_x) / (self.forward_num + 1)
 			self.forward_num += 1
-			self.E_x = self.sum_mu / self.forward_num
-			self.Var_x = self.sum_sigma / self.forward_num
 
 			return self.gamma * self.xh + self.beta
 		else:
@@ -176,12 +168,11 @@ class BatchNorm(Layer):
 
 		return dx
 
-	def updateParams(self, optimizer):
-		self.gamma = optimizer.update(self.gamma, self.grad_gamma)
-		self.beta = optimizer.update(self.beta, self.grad_beta)
-
 	def getParams(self):
 		return [self.gamma, self.beta, self.E_x, self.Var_x, self.forward_num]
+
+	def getLearnableParams(self):
+		return [self.gamma, self.beta]
 
 	def setParams(self, params):
 		self.gamma = params[0]
@@ -191,7 +182,7 @@ class BatchNorm(Layer):
 		self.forward_num = params[4]
 
 	def getGrads(self):
-		return [self.grad_gamma, self.grad_beta, 0, 0, 0]
+		return [self.grad_gamma, self.grad_beta]
 
 
 

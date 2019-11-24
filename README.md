@@ -1,21 +1,36 @@
 # 2019年度計算機科学実験4
 
-## 課題4
-- (784,100)-sigmoid-(100,10)-softmax
-- SGD:lr=0.01, epochs=50
-- accuracy: 0.9221
-- params_50.npy, training_loss_50.png
+## 仕様
+- Network の定義
+	- net = Sequential(Affine(784,100), Sigmoid(), ...)
+- Optimizer の定義
+	- optimizer = SGD(net.getLayers(), lr=0.01)
+- 学習方法
+	- forward: loss = net(X, target=Y) # X, Y はミニバッチ
+	- 勾配の計算: net.backprop(loss)
+	- パラメータ更新: optimizer.step()
+- 推論
+	- net.(X)
+- モデルの保存
+	- net.saveParams("params")
+- モデルの読み込み
+	- net.loadParams("params.npy")
 
-## 発展課題
-- (784,100)-relu-(100,10)-softmax
-	- SGD:lr=0.01, epochs=50
-	- accuracy: 0.9585
-	- params_relu_50.npy, training_loss_relu_50.png
-- (784,100)-relu-dropout(0.5)-(100,10)-softmax
-	- SGD:lr=0.01, epochs=50
-	- accuracy: 0.9425
-	- params_relu_do_50.npy, training_loss_relu_do_50.png
-- (784,100)-batchnorm-relu-(100,10)-softmax
-	- SGD:lr=0.01, epochs=50
-	- accuracy: 0.9574
-	- params_relu_bn_50.npy, training_loss_relu_bn_50.png
+## 実験結果
+- MNIST
+	- (784,100)-sigmoid-(100,10)-softmax
+		- SGD:lr=0.01, epochs=50
+		- accuracy=0.9236
+		- 学習済みパラメータ: 50.npy
+	- (784,100)-relu-(100,10)-softmax
+		- SGD:lr=0.01, epochs=50
+		- accuracy=0.9595
+		- 学習済みパラメータ: relu_50.npy
+	- (784,100)-relu-dropout(0.5)-(100,10)-softmax
+		- SGD:lr=0.01, epochs=50
+		- accuracy=0.9401
+		- 学習済みパラメータ: relu_do_50.npy
+	- (784,100)-batchnorm-relu-(100,10)-softmax
+		- SGD:lr=0.01, epochs=50
+		- accuracy=0.9697
+		- 学習済みパラメータ: relu_bn_50.npy
