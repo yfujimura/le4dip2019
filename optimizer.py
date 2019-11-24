@@ -127,6 +127,43 @@ class AdaDelta(Optimizer):
 					params[i] += delta
 				k+=1
 
+class Adam(Optimizer):
+
+	def __init__(self, layers, lr=1.0e-3, beta1=0.9, beta2=0.999, epsilon=1.0e-8):
+		self.layers = layers
+		self.lr = lr
+		self.beta1 = beta1
+		self.beta2 = beta2
+		self.epsilon = epsilon
+		self.t = 0
+		self.m = []
+		self.v = []
+
+		for l in self.layers:
+			if l.is_learnable:
+				grads = l.getGrads()
+				self.m.append([0]*len(grads))
+				self.v.append([0]*len(grads))
+
+	def step(self):
+		k = 0
+		for l in self.layers:
+			if l.is_learnable:
+				params = l.getLearnableParams()
+				grads = l.getGrads()
+				for i in range(len(params)):
+					self.t += 1
+					self.m[k][i] *= self.beta1
+					self.m[k][i] += (1 - self.beta1) * grads[i]
+					self.v[k][i] *= self.beta2
+					self.v[k][i] += (1 - self.beta2) * grads[i]*grads[i]
+					m_hat = self.m[k][i] / (1 - pow(self.beta1, self.t))
+					v_hat = self.v[k][i] / (1 - pow(self.beta2, self.t))
+					params[i] += -self.lr * m_hat / (np.sqrt(v_hat) + self.epsilon)
+				k+=1
+
+
+
 
 
 

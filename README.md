@@ -54,3 +54,7 @@
 			- epochs=50
 			- accuracy=0.9776
 			- 学習済みパラメータ: relu_bn_50_adadelta.npy
+		- Adam:lr=1.0e-3, beta1=0.9, beta2=0.999, epsilon=1.0e-8
+			- epochs=50
+			- accuracy=0.9734
+			- 学習済みパラメータ: relu_bn_50_adam.npy
