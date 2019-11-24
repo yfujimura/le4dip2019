@@ -48,4 +48,29 @@ class MomentumSGD(Optimizer):
 					params[i] += self.delta[k][i]
 				k += 1
 
+class AdaGrad(Optimizer):
+
+	def __init__(self, layers, lr=1.0e-3, h0=1.0e-8):
+		self.layers = layers
+		self.lr = lr
+		self.h = []
+
+		for l in self.layers:
+			if l.is_learnable:
+				grads = l.getGrads()
+				self.h.append([h0]*len(grads))
+
+	def step(self):
+		k = 0
+		for l in self.layers:
+			if l.is_learnable:
+				params = l.getLearnableParams()
+				grads = l.getGrads()
+				for i in range(len(params)):
+					self.h[k][i] += grads[i]*grads[i]
+					params[i] += -self.lr * grads[i] / np.sqrt(self.h[k][i])
+				k+=1
+
+
+
 

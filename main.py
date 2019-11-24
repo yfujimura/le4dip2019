@@ -65,7 +65,8 @@ def main(fn):
 		)
 
 	#optimizer = SGD(net.getLayers(), lr=0.01)
-	optimizer = MomentumSGD(net.getLayers())
+	#optimizer = MomentumSGD(net.getLayers())
+	optimizer = AdaGrad(net.getLayers())
 	batch_size = 100
 	epochs = 50
 	training_loss = train(net, X, Y, optimizer, batch_size=batch_size, epochs=epochs)

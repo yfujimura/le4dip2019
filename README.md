@@ -19,21 +19,30 @@
 ## 実験結果
 - MNIST
 	- (784,100)-sigmoid-(100,10)-softmax
-		- SGD:lr=0.01, epochs=50
-		- accuracy=0.9236
-		- 学習済みパラメータ: 50.npy
+		- SGD:lr=0.01
+			- epochs=50
+			- accuracy=0.9236
+			- 学習済みパラメータ: 50.npy
 	- (784,100)-relu-(100,10)-softmax
-		- SGD:lr=0.01, epochs=50
-		- accuracy=0.9595
-		- 学習済みパラメータ: relu_50.npy
+		- SGD:lr=0.01	
+			- epochs=50
+			- accuracy=0.9595
+			- 学習済みパラメータ: relu_50.npy
 	- (784,100)-relu-dropout(0.5)-(100,10)-softmax
-		- SGD:lr=0.01, epochs=50
-		- accuracy=0.9401
-		- 学習済みパラメータ: relu_do_50.npy
+		- SGD:lr=0.01
+			-epochs=50
+			- accuracy=0.9401
+			- 学習済みパラメータ: relu_do_50.npy
 	- (784,100)-batchnorm-relu-(100,10)-softmax
-		- SGD:lr=0.01, epochs=50
+		- SGD:lr=0.01
+			- epochs=50
 			- accuracy=0.9697
 			- 学習済みパラメータ: relu_bn_50.npy
-		- MomentumSGD:lr=0.01 alpha=0.9, epochs=50
+		- MomentumSGD:lr=0.01 alpha=0.9
+			- epochs=50
 			- accuracy=0.9759
 			- 学習済みパラメータ: relu_bn_50_msgd.npy
+		- AdaGrad:lr=0.001 h0=1.0e-8 
+			- epochs=50
+			- accuracy=0.9532
+			- 学習済みパラメータ: relu_bn_50_adagrad.npy
