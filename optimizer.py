@@ -97,6 +97,36 @@ class RMSProp(Optimizer):
 					params[i] += -self.lr * grads[i] / np.sqrt(self.h[k][i] + self.epsilon)
 				k+=1
 
+class AdaDelta(Optimizer):
+
+	def __init__(self, layers, rho=0.95, epsilon=1.0e-6):
+		self.layers = layers
+		self.rho = rho
+		self.epsilon = epsilon
+		self.h = []
+		self.s = []
+
+		for l in self.layers:
+			if l.is_learnable:
+				grads = l.getGrads()
+				self.h.append([0]*len(grads))
+				self.s.append([0]*len(grads))
+
+	def step(self):
+		k = 0
+		for l in self.layers:
+			if l.is_learnable:
+				params = l.getLearnableParams()
+				grads = l.getGrads()
+				for i in range(len(params)):
+					self.h[k][i] *= self.rho
+					self.h[k][i] += (1 - self.rho) * grads[i]*grads[i]
+					delta = -grads[i] * (np.sqrt(self.s[k][i] + self.epsilon)) / (np.sqrt(self.h[k][i] + self.epsilon)) 
+					self.s[k][i] *= self.rho
+					self.s[k][i] += (1 - self.rho) * delta*delta
+					params[i] += delta
+				k+=1
+
 
 
 

@@ -50,3 +50,7 @@
 			- epochs=50
 			- accuracy=0.9751
 			- 学習済みパラメータ: relu_bn_50_rmsprop.npy
+		- AdaDelta:rho=0.95, epsilon=1.0e-6
+			- epochs=50
+			- accuracy=0.9776
+			- 学習済みパラメータ: relu_bn_50_adadelta.npy
