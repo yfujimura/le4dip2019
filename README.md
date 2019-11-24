@@ -32,5 +32,8 @@
 		- 学習済みパラメータ: relu_do_50.npy
 	- (784,100)-batchnorm-relu-(100,10)-softmax
 		- SGD:lr=0.01, epochs=50
-		- accuracy=0.9697
-		- 学習済みパラメータ: relu_bn_50.npy
+			- accuracy=0.9697
+			- 学習済みパラメータ: relu_bn_50.npy
+		- MomentumSGD:lr=0.01 alpha=0.9, epochs=50
+			- accuracy=0.9759
+			- 学習済みパラメータ: relu_bn_50_msgd.npy

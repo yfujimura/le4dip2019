@@ -18,6 +18,8 @@ class Affine(Layer):
 		scale = 1 / np.sqrt(in_d)
 		self.W = np.random.normal(0, scale, (self.in_d, self.out_d))
 		self.b = np.random.normal(0, scale, self.out_d)
+		self.grad_W = np.zeros(self.W.shape)
+		self.grad_b = np.zeros(self.b.shape)
 
 		self.is_learnable = True
 
@@ -135,6 +137,8 @@ class BatchNorm(Layer):
 		self.is_learnable = True
 		self.gamma = np.ones((1, dim))
 		self.beta = np.zeros((1, dim))
+		self.grad_gamma = np.zeros(self.gamma.shape)
+		self.grad_beta = np.zeros(self.beta.shape)
 		self.epsilon = epsilon
 		self.mode = "train"
 
