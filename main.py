@@ -92,7 +92,7 @@ def main(fn):
 		Affine(100,10),
 		Softmax()
 		)
-	net.loadParams("params/" + fn + ".npy")
+	net.loadParams("params/" + fn)
 	net.eval()
 
 	accuracy = eval(net, X_test, Y_test)

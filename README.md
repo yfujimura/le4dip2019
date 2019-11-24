@@ -10,11 +10,11 @@
 	- 勾配の計算: net.backprop(loss)
 	- パラメータ更新: optimizer.step()
 - 推論
-	- net.(X)
+	- net(X)
 - モデルの保存
 	- net.saveParams("params")
 - モデルの読み込み
-	- net.loadParams("params.npy")
+	- net.loadParams("params")
 
 ## 実験結果
 - MNIST

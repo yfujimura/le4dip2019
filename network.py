@@ -43,7 +43,7 @@ class Sequential():
 		np.save(fn, np.array(parameters))
 
 	def loadParams(self, fn):
-		parameters = np.load(fn)
+		parameters = np.load(fn + ".npy")
 		i = 0
 		for l in self.layers:
 			if l.is_learnable:
