@@ -64,9 +64,10 @@ def main(fn):
 		SoftmaxWithCrossEntropy()
 		)
 
-	#optimizer = SGD(net.getLayers(), lr=0.01)
+	#optimizer = SGD(net.getLayers())
 	#optimizer = MomentumSGD(net.getLayers())
-	optimizer = AdaGrad(net.getLayers())
+	#optimizer = AdaGrad(net.getLayers())
+	optimizer = RMSProp(net.getLayers())
 	batch_size = 100
 	epochs = 50
 	training_loss = train(net, X, Y, optimizer, batch_size=batch_size, epochs=epochs)

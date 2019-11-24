@@ -38,11 +38,15 @@
 			- epochs=50
 			- accuracy=0.9697
 			- 学習済みパラメータ: relu_bn_50.npy
-		- MomentumSGD:lr=0.01 alpha=0.9
+		- MomentumSGD:lr=0.01, alpha=0.9
 			- epochs=50
 			- accuracy=0.9759
 			- 学習済みパラメータ: relu_bn_50_msgd.npy
-		- AdaGrad:lr=0.001 h0=1.0e-8 
+		- AdaGrad:lr=0.001, h0=1.0e-8 
 			- epochs=50
 			- accuracy=0.9532
 			- 学習済みパラメータ: relu_bn_50_adagrad.npy
+		- RMSProp:lr=1.0e-3, rho=0.9, epsilon=1.0e-8
+			- epochs=50
+			- accuracy=0.9751
+			- 学習済みパラメータ: relu_bn_50_rmsprop.npy
