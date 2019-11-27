@@ -58,3 +58,28 @@
 			- epochs=50
 			- accuracy=0.9734
 			- 学習済みパラメータ: relu_bn_50_adam.npy
+
+- CIFAR10
+	- (3072,500)-batchnorm-relu-(500,10)-softmax
+		- SGD:lr=0.01	
+			- epochs=50
+			- accuracy=0.4213
+			- 学習済みパラメータ: cifar10_50_sgd.npy
+		- SGD:lr=0.01	
+			- epochs=100
+			- accuracy=0.3329
+			- 学習済みパラメータ: cifar10_100_sgd.npy
+	- (3072,1000)-batchnorm-relu-(1000,10)-softmax
+		- SGD:lr=0.01	
+			- epochs=100
+			- accuracy=0.4987
+			- 学習済みパラメータ: cifar10_1000_100_sgd.npy
+	- (3072,500)-batchnorm-relu-(500,100)-batchnorm-relu-(100,10)-softmax
+		- SGD:lr=0.01	
+			- epochs=100
+			- accuracy=0.4692
+			- 学習済みパラメータ: cifar10_500-100_100_sgd.npy
+		- AdaDelta:rho=0.95, epsilon=1.0e-6	
+			- epochs=100
+			- accuracy=0.4262
+			- 学習済みパラメータ: cifar10_500-100_100_adadelta.npy
